@@ -35,13 +35,16 @@ const app = {
 		let job = this.job = JSON.parse( chunks.join('') );
 		let params = this.params = job.params;
 		
-		this.logVerbose("Job Parameters: " + JSON.stringify(params));
-		
 		// apply defaults and normalization on some params
-		params.domTimeout = params.domTimeout || 3000;
-		params.navTimeout = params.navTimeout || 30_000;
-		params.stepDelay = params.stepDelay || 1000;
+		params.verbose = parseInt( params.verbose || 0 );
+		params.width = parseInt( params.width || 1280 );
+		params.height = parseInt( params.height || 720 );
+		params.domTimeout = parseInt( params.domTimeout || 3000 );
+		params.navTimeout = parseInt( params.navTimeout || 30000 );
+		params.stepDelay = parseInt( params.stepDelay || 1000 );
 		params.video = ('' + params.video).toLowerCase() || 'none';
+		
+		this.logVerbose("Job Parameters: " + JSON.stringify(params));
 		
 		// setup stagehand opts
 		let sh_opts = {
