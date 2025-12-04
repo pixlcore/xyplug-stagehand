@@ -103,6 +103,12 @@ const app = {
 		// make sure downloads dir exists
 		if (!existsSync('downloads')) mkdirSync('downloads');
 		
+		// at vebose level 2, dump job data and env to downloads
+		if (params.verbose >= 2) {
+			fs.writeFileSync( 'downloads/job.json', JSON.stringify(job, null, "\t") + "\n" );
+			fs.writeFileSync( 'downloads/env.json', JSON.stringify(process.env, null, "\t") + "\n" );
+		}
+		
 		console.log(`🔵 Initializing Stagehand...`);
 		this.logVerbose( "Stagehand Config: " + JSON.stringify(sh_opts) );
 		
@@ -389,7 +395,8 @@ const app = {
 		
 		// handle stagehand-style %placeholder% variables
 		value = value.toString().replace( /\%(\w+)\%/g, function(m_all, m_g1) {
-			return process.env[ m_g1 ] || "";
+			if (!process.env[ m_g1 ]) throw new Error("Environment variable not found: " + m_g1);
+			return process.env[ m_g1 ];
 		} );
 		
 		await locator.fill(value, { timeout: this.params.domTimeout });
@@ -420,7 +427,8 @@ const app = {
 		
 		// handle stagehand-style %placeholder% variables
 		value = value.toString().replace( /\%(\w+)\%/g, function(m_all, m_g1) {
-			return process.env[ m_g1 ] || "";
+			if (!process.env[ m_g1 ]) throw new Error("Environment variable not found: " + m_g1);
+			return process.env[ m_g1 ];
 		} );
 		
 		await this.page.keyboard.insertText( value );
@@ -435,7 +443,8 @@ const app = {
 		
 		// handle stagehand-style %placeholder% variables
 		value = value.toString().replace( /\%(\w+)\%/g, function(m_all, m_g1) {
-			return process.env[ m_g1 ] || "";
+			if (!process.env[ m_g1 ]) throw new Error("Environment variable not found: " + m_g1);
+			return process.env[ m_g1 ];
 		} );
 		
 		const result = await this.page.evaluate( value );
