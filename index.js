@@ -177,11 +177,22 @@ const app = {
 				if (!file.match(/\.\w+$/) && headers["content-type"] && headers["content-type"].match(/^\w+\/(\w+)/)) {
 					file += '.' + RegExp.$1;
 				}
+				if (!file.match(/\.\w+$/)) {
+					file += '.bin';
+				}
 				
 				var payload = data;
 				if (typeof(data) == 'object') {
 					payload = step.pretty ? JSON.stringify(data, null, "\t") : JSON.stringify(data);
 					payload += "\n";
+				}
+				
+				// auto-increment file number if exists
+				var file_num = 0;
+				var orig_file = file;
+				while (existsSync(file)) {
+					file_num++;
+					file = orig_file.replace( /(\.\w+)$/, '-' + file_num + '$1' );
 				}
 				
 				writeFileSync( file, payload );
