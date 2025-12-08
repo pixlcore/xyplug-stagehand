@@ -213,6 +213,20 @@ To access the recorder, while in Chrome Dev Tools, press `Control+Shift+P` (Wind
 
 When you finish a recording, while still on the detail view in Dev Tools, if you click the tiny little "Download" (downward-facing arrow) button in the toolbar, you can choose from a variety of formats.  Select "JSON", save the file, and then you can copy & paste (or just directly upload) the file into the xyOps Plugin Script Editor.
 
+### Exit Steps
+
+If your script has steps that must **always** be executed, even in the event of an error, include an `always` property and set it to `true`.  This feature can be used for situations like a logout sequence, which must be executed even if the other steps failed for whatever reason.  Example:
+
+```json
+{
+	"type": "click",
+	"selectors": [
+		[ "aria/Logout" ]
+	],
+	"always": true
+}
+```
+
 ## Privacy
 
 If you use any of the AI features, then the entire DOM tree of your visited pages are sent to the selected AI provider.  This may include sensitive information, especially if you type it into forms.  There are two ways to help mitigate this:
@@ -300,7 +314,7 @@ Example Dev setup:
 docker build -t xyplug-stagehand-dev .
 
 # Run with test file pipe, and index.js and downloads mapped to container
-cat MY_TEST_FILE.json | docker run --rm -i --init -v "./downloads:/app/downloads" -v "./index.js:/app/index.js" xyplug-stagehand-dev
+cat MY_TEST_FILE.json | docker run --rm -i --init --ipc=host -v "./downloads:/app/downloads" -v "./index.js:/app/index.js" xyplug-stagehand-dev
 ```
 
 ## License

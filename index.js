@@ -258,9 +258,49 @@ const app = {
 	
 	async runScript() {
 		// here we go, run all steps
-		for (const step of this.steps) {
-			await this.runStep(step);
+		try { 
+			for (const step of this.steps) {
+				await this.runStep(step);
+			}
 		}
+		catch (err) {
+			// a step failed, but the user may have "always" steps that must run no matter what
+			// for e.g. a logout sequence
+			var alwaysSteps = this.steps.filter( function(step) { return !!step.always } );
+			if (alwaysSteps.length) {
+				for (const step of alwaysSteps) {
+					await this.runAlwaysStep(step);
+				}
+			}
+			
+			// throw original error regardless of always steps or their result
+			throw err;
+		}
+	},
+	
+	getStepDescription(step) {
+		// get step description text based on type and other props
+		let desc = '';
+		
+		switch (step.type) {
+			case 'navigate': desc = `Navigating to: ` + step.url; break;
+			case 'capture': desc = `Capturing network requests for: ` + step.url; break;
+			case 'action': desc = `Taking action: ` + step.prompt; break;
+			case 'extract': desc = `Extracting data: ` + step.prompt; break;
+			case 'setViewport': desc = `Setting viewport size: ` + step.width + 'x' + step.height; break;
+			case 'click': desc = `Clicking on: ` + step.selectors.join(', '); break;
+			case 'doubleClick': desc = `Double-clicking on: ` + step.selectors.join(', '); break;
+			case 'change': desc = `Changing form element: ` + step.selectors.join(', ') + ` to: ` + step.value; break;
+			case 'keyDown': desc = `Pressing key: ` + step.key; break;
+			case 'keyUp': desc = `Releasing key: ` + step.key; break;
+			case 'text': desc = `Typing text: ` + (step.text ?? step.value); break;
+			case 'evaluate': desc = `Evaluating JavaScript: ` + step.script; break;
+			case 'reload': desc = `Reloading page.`; break;
+			case 'sleep': desc = `Sleeping for ${step.duration}ms.`; break;
+			case 'waitFor': desc = `Waiting for: ` + step.selectors.join(', '); break;
+		}
+		
+		return desc;
 	},
 	
 	async runStep(step) {
@@ -273,30 +313,35 @@ const app = {
 		}
 		
 		const prefix = `🔵 Step ${ Math.floor(this.stepIdx + 1) }/${ this.steps.length }: `;
-		
-		switch (step.type) {
-			case 'navigate': console.log( prefix + `Navigating to: ` + step.url ); break;
-			case 'capture': console.log( prefix + `Capturing network requests for: ` + step.url ); break;
-			case 'action': console.log( prefix + `Taking action: ` + step.prompt ); break;
-			case 'extract': console.log( prefix + `Extracting data: ` + step.prompt ); break;
-			case 'setViewport': console.log( prefix + `Setting viewport size: ` + step.width + 'x' + step.height ); break;
-			case 'click': console.log( prefix + `Clicking on: ` + step.selectors.join(', ') ); break;
-			case 'doubleClick': console.log( prefix + `Double-clicking on: ` + step.selectors.join(', ') ); break;
-			case 'change': console.log( prefix + `Changing form element: ` + step.selectors.join(', ') + ` to: ` + step.value ); break;
-			case 'keyDown': console.log( prefix + `Pressing key: ` + step.key ); break;
-			case 'keyUp': console.log( prefix + `Releasing key: ` + step.key ); break;
-			case 'text': console.log( prefix + `Typing text: ` + (step.text ?? step.value) ); break;
-			case 'evaluate': console.log( prefix + `Evaluating JavaScript: ` + step.script ); break;
-			case 'reload': console.log( prefix + `Reloading page.` ); break;
-			case 'sleep': console.log( prefix + `Sleeping for ${step.duration}ms.` ); break;
-			case 'waitFor': console.log( prefix + `Waiting for: ` + step.selectors.join(', ') ); break;
-		}
+		console.log( prefix + this.getStepDescription(step) );
 		
 		await this[func](step);
 		
 		// update progress
 		this.stepIdx++;
 		if (this.job.xy) console.log( JSON.stringify({ xy:1, progress:this.stepIdx / this.steps.length }) );
+		
+		// sanity sleep between steps
+		await sleep( this.params.stepDelay );
+	},
+	
+	async runAlwaysStep(step) {
+		// run a single step in "always" mode (e.g. a logout sequence)
+		let func = 'runStep_' + step.type;
+		if (!this[func]) {
+			// throw new Error("Unknown step type: " + step.type);
+			this.logWarning( `Skipping unknown step type: ` + step.type );
+			return;
+		}
+		
+		const prefix = `🟣 Exit Step: `;
+		console.log( prefix + this.getStepDescription(step) );
+		
+		try { await this[func](step); }
+		catch (err) {
+			// step failed, but keep going anyway (always mode)
+			this.logWarning( `Exit Step Failed: ` + err );
+		}
 		
 		// sanity sleep between steps
 		await sleep( this.params.stepDelay );
@@ -549,10 +594,10 @@ const app = {
 		const locators = [];
 		
 		for (const selectorGroup of step.selectors) {
-			if (!Array.isArray(selectorGroup) || selectorGroup.length === 0) continue;
+			if (selectorGroup.length === 0) continue;
 			// DevTools uses an array of candidate strings per "group".
-			// We’ll just take the first one in each group; you could get fancier here.
-			const raw = selectorGroup[0];
+			// We’ll just take the first one in each group; FUTURE: get fancier here.
+			const raw = Array.isArray(selectorGroup) ? selectorGroup[0] : selectorGroup;
 			const loc = this.locatorFromSelector(raw);
 			if (loc) locators.push(loc);
 		}
