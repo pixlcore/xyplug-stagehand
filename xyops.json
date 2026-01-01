@@ -1,0 +1,141 @@
+{
+	"type": "xypdf",
+	"description": "xyOps Portable Data Object",
+	"version": "1.0",
+	"items": [
+		{
+			"type": "plugin",
+			"data": {
+				"id": "pmikpt744ub",
+				"title": "Stagehand",
+				"enabled": true,
+				"type": "event",
+				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.9",
+				"script": "",
+				"groups": [],
+				"format": "",
+				"params": [
+					{
+						"id": "ai_model_name",
+						"title": "AI Model Name",
+						"type": "text",
+						"caption": "Enter the AI provider and model name, separated by a slash.",
+						"locked": false,
+						"value": "google/gemini-2.5-flash",
+						"variant": "text",
+						"required": false
+					},
+					{
+						"id": "ai_api_key",
+						"title": "AI API Key",
+						"type": "text",
+						"caption": "Specify your AI provider's API Key here, or use a Secret Vault environment macro.  This is only required if you use the Stagehand AI features.",
+						"locked": false,
+						"value": "{{ env.AI_API_KEY }}",
+						"variant": "text",
+						"required": false
+					},
+					{
+						"id": "ai_base_url",
+						"title": "AI Base URL",
+						"type": "text",
+						"caption": "If using a custom endpoint for AI inference (e.g. Ollama), enter the URL here.",
+						"locked": false,
+						"value": "",
+						"variant": "text",
+						"required": false
+					},
+					{
+						"id": "ai_log_inference",
+						"title": "Log AI Inference",
+						"type": "checkbox",
+						"caption": "Optionally capture and attach all the AI inference summary logs (for debugging).",
+						"locked": false,
+						"value": false
+					},
+					{
+						"id": "width",
+						"title": "Width",
+						"type": "text",
+						"caption": "Enter the desired browser window width in pixels.",
+						"locked": false,
+						"value": 1280,
+						"variant": "number",
+						"required": true
+					},
+					{
+						"id": "height",
+						"title": "Height",
+						"type": "text",
+						"caption": "Enter the desired browser window height in pixels.",
+						"locked": false,
+						"value": 720,
+						"variant": "number",
+						"required": true
+					},
+					{
+						"id": "video",
+						"title": "Capture Video",
+						"type": "select",
+						"caption": "Choose whether to capture and attach a video of the browser session always, only on error, or never.",
+						"locked": false,
+						"value": "Always, Error, None"
+					},
+					{
+						"id": "verbose",
+						"title": "Verbosity Level",
+						"type": "select",
+						"caption": "Select the verbosity level of the job output.  0 is quietest, 2 is loudest.\n",
+						"locked": false,
+						"value": "0, 1, 2"
+					},
+					{
+						"id": "domTimeout",
+						"title": "DOM Timeout",
+						"type": "text",
+						"caption": "Number of milliseconds to wait for DOM selectors to locate their targets.",
+						"locked": false,
+						"value": 3000,
+						"variant": "number",
+						"required": true
+					},
+					{
+						"id": "navTimeout",
+						"title": "Navigation Timeout",
+						"type": "text",
+						"caption": "Number of milliseconds to wait for navigation events (page loads).",
+						"locked": false,
+						"value": 30000,
+						"variant": "number",
+						"required": true
+					},
+					{
+						"id": "stepDelay",
+						"title": "Step Delay",
+						"type": "text",
+						"caption": "Number of milliseconds to wait between steps, to help ensure stability.",
+						"locked": false,
+						"value": 1000,
+						"variant": "number",
+						"required": true
+					},
+					{
+						"id": "script",
+						"title": "Script",
+						"type": "code",
+						"caption": "Enter your list of instructions for the browser to perform, one per line.  It can be plain text or JSON.  See [xyplug-stagehand](https://github.com/pixlcore/xyplug-stagehand) for details.",
+						"locked": false,
+						"value": "Navigate to https://mycompany.com/\nType \"foo\" into the Username text field.\nType \"bar\" into the Password text field.\nClick the \"Login\" button.\nSleep for 3000",
+						"required": true
+					}
+				],
+				"kill": "parent",
+				"notes": "A Stagehand event plugin for the xyOps Workflow Automation System. This package provides an AI-powered browser automation framework for xyOps.  Using it you can drive a headless browser with simple English instructions, take actions, extract data, capture network requests, and even record a video of the whole session.",
+				"icon": "hand-back-right-outline",
+				"uid": "",
+				"gid": "",
+				"runner": true
+			}
+		}
+	]
+}

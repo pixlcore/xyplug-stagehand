@@ -1,4 +1,4 @@
-<p align="center"><img src="https://raw.githubusercontent.com/pixlcore/xyplug-stagehand/refs/heads/main/stagehand-logo.png" height="108" alt="Stagehand"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/pixlcore/xyplug-stagehand/refs/heads/main/logo.png" height="108" alt="Stagehand"/></p>
 <h1 align="center">Stagehand Automation Plugin</h1>
 
 A Stagehand event plugin for the [xyOps Workflow Automation System](https://xyops.io). This package provides an AI-powered browser automation framework for xyOps.  Using it you can drive a headless browser with simple English instructions, take actions, extract data, capture network requests, and even record a video of the whole session.

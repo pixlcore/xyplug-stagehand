@@ -1,7 +1,7 @@
 {
 	"name": "xyplug-stagehand",
 	"type": "module",
-	"version": "1.0.8",
+	"version": "1.0.9",
 	"private": true,
 	"description": "A Stagehand Plugin for use in the xyOps workflow automation system.",
 	"author": "Joseph Huckaby <jhuckaby@pixlcore.com>",
