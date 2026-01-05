@@ -59,7 +59,7 @@ const app = {
 			domSettleTimeout: params.domTimeout,
 			
 			localBrowserLaunchOptions: {
-				executablePath: globSync('/ms-playwright/chromium-*/chrome-linux/chrome')[0],
+				executablePath: globSync('/ms-playwright/chromium-*/chrome-*/chrome')[0],
 				headless: true,
 				viewport: { 
 					width: params.width || 1280,
