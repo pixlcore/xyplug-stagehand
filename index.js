@@ -662,6 +662,10 @@ const app = {
 			data: this.output, 
 			files: [ 'downloads/*' ] 
 		}) );
+		
+		// sanity exit after 1s (stagehand has trouble shutting down sometimes)
+		var timer = setTimeout( function() { process.exit(0); }, 1000 );
+		timer.unref();
 	},
 	
 	logWarning(msg) {
