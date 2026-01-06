@@ -10,7 +10,7 @@
 				"title": "Stagehand",
 				"enabled": true,
 				"type": "event",
-				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.15",
+				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.16",
 				"script": "",
 				"groups": [],
 				"format": "",
@@ -78,6 +78,16 @@
 						"caption": "Select the verbosity level of the job output.  0 is quietest, 2 is loudest.\n",
 						"locked": false,
 						"value": "0, 1, 2"
+					},
+					{
+						"id": "aiTimeout",
+						"title": "AI Timeout",
+						"type": "text",
+						"caption": "Number of milliseconds to wait for AI to run an action.",
+						"locked": false,
+						"value": 60000,
+						"variant": "number",
+						"required": true
 					},
 					{
 						"id": "domTimeout",
