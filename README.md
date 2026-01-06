@@ -294,7 +294,6 @@ When invoked by xyOps the script expects JSON input via STDIN.  You can, however
 	"xy": 1,
 	"params": {
 		"ai_model_name": "google/gemini-2.5-flash",
-		"ai_api_key": "YOUR_AI_API_KEY_HERE",
 		"ai_base_url": "",
 		"ai_system_prompt": "",
 		"ai_log_inference": true,
@@ -302,6 +301,7 @@ When invoked by xyOps the script expects JSON input via STDIN.  You can, however
 		"height": 720,
 		"video": "always",
 		"verbose": 2,
+		"aiTimeout": 60000,
 		"domTimeout": 3000,
 		"navTimeout": 30000,
 		"script": "Navigate to https://news.ycombinator.com/\nExtract the first three article titles, in a JSON array."
@@ -316,7 +316,7 @@ Example Dev setup:
 docker build -t xyplug-stagehand-dev .
 
 # Run with test file pipe, and index.js and downloads mapped to container
-cat MY_TEST_FILE.json | docker run --rm -i --init --ipc=host -v "./downloads:/app/downloads" -v "./index.js:/app/index.js" xyplug-stagehand-dev
+cat MY_TEST_FILE.json | docker run --rm -i --init --ipc=host -v "./downloads:/app/downloads" -v "./index.js:/app/index.js" -e AI_API_KEY="YOUR_AI_API_KEY_HERE" xyplug-stagehand-dev
 ```
 
 ## License
