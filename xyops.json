@@ -10,7 +10,7 @@
 				"title": "Stagehand",
 				"enabled": true,
 				"type": "event",
-				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.14",
+				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.15",
 				"script": "",
 				"groups": [],
 				"format": "",
@@ -22,16 +22,6 @@
 						"caption": "Enter the AI provider and model name, separated by a slash.",
 						"locked": false,
 						"value": "google/gemini-2.5-flash",
-						"variant": "text",
-						"required": false
-					},
-					{
-						"id": "ai_api_key",
-						"title": "AI API Key",
-						"type": "text",
-						"caption": "Specify your AI provider's API Key here, or use a Secret Vault environment macro.  This is only required if you use the Stagehand AI features.",
-						"locked": false,
-						"value": "{{ env.AI_API_KEY }}",
 						"variant": "text",
 						"required": false
 					},
