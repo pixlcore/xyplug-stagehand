@@ -10,7 +10,7 @@
 				"title": "Stagehand",
 				"enabled": true,
 				"type": "event",
-				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.13",
+				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.14",
 				"script": "",
 				"groups": [],
 				"format": "",
