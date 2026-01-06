@@ -1,5 +1,5 @@
 // Stagehand wrapper for xyOps
-// Copyright (c) 2025 PixlCore LLC
+// Copyright (c) 2025 - 2026 PixlCore LLC
 // MIT License
 
 import { Stagehand } from "@browserbasehq/stagehand";
@@ -50,7 +50,7 @@ const app = {
 		let sh_opts = {
 			env: "LOCAL",
 			model: {
-				modelName: params.ai_model || 'google/gemini-2.5-flash',
+				modelName: params.ai_model_name || 'google/gemini-2.5-flash',
 				apiKey: params.ai_api_key || ''
 			},
 			verbose: params.verbose || 0,
@@ -105,8 +105,8 @@ const app = {
 		
 		// at vebose level 2, dump job data and env to downloads
 		if (params.verbose >= 2) {
-			fs.writeFileSync( 'downloads/job.json', JSON.stringify(job, null, "\t") + "\n" );
-			fs.writeFileSync( 'downloads/env.json', JSON.stringify(process.env, null, "\t") + "\n" );
+			writeFileSync( 'downloads/job.json', JSON.stringify(job, null, "\t") + "\n" );
+			writeFileSync( 'downloads/env.json', JSON.stringify(process.env, null, "\t") + "\n" );
 		}
 		
 		console.log(`🔵 Initializing Stagehand...`);
