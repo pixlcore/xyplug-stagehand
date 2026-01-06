@@ -39,6 +39,7 @@ const app = {
 		params.verbose = parseInt( params.verbose || 0 );
 		params.width = parseInt( params.width || 1280 );
 		params.height = parseInt( params.height || 720 );
+		params.aiTimeout = parseInt( params.aiTimeout || 60000 );
 		params.domTimeout = parseInt( params.domTimeout || 3000 );
 		params.navTimeout = parseInt( params.navTimeout || 30000 );
 		params.stepDelay = parseInt( params.stepDelay || 1000 );
@@ -379,7 +380,7 @@ const app = {
 		
 		let result = await this.stagehand.act( step.prompt, { 
 			variables: process.env, 
-			timeout: step.timeout || this.params.domTimeout,
+			timeout: step.timeout || this.params.aiTimeout,
 			page: this.page 
 		} );
 		if (!result || !result.success) throw new Error("Action failed: " + result.actionDescription + ": " + result.message);
@@ -390,7 +391,7 @@ const app = {
 		// step: { prompt, timeout? }
 		if (!step.prompt) throw new Error("Extract: No prompt specified.");
 		
-		const result = await this.stagehand.extract( step.prompt, z.any(), { page: this.page, timeout: step.timeout || this.params.domTimeout });
+		const result = await this.stagehand.extract( step.prompt, z.any(), { page: this.page, timeout: step.timeout || this.params.aiTimeout });
 		if (!result) throw new Error("Extraction failed: " + step.prompt);
 		
 		if (!this.output.extractions) this.output.extractions = [];
