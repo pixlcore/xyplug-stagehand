@@ -51,7 +51,7 @@ const app = {
 			env: "LOCAL",
 			model: {
 				modelName: params.ai_model_name || 'google/gemini-2.5-flash',
-				apiKey: params.ai_api_key || ''
+				apiKey: process.env.AI_API_KEY || ''
 			},
 			verbose: params.verbose || 0,
 			cacheDir: "cache",

@@ -16,9 +16,11 @@ This Plugin relies heavily on the [Stagehand](https://github.com/browserbase/sta
 
 ## Environment Variables
 
-Create a [Secret Vault](https://xyops.io/docs/secrets) in xyOps and assign this Plugin to it.  Add your AI provider's API Key using an environment variable name of your choice, e.g. `AI_API_KEY`.
+If you are going to use the AI features in Stagehand, create a [Secret Vault](https://xyops.io/docs/secrets) in xyOps and assign this Plugin to it.  Add your AI provider's API Key in a new variable named:
 
-Then, map that variable into the "AI API Key" Plugin parameter using this syntax: `{{ env.AI_API_KEY }}`
+```
+AI_API_KEY
+```
 
 Stagehand supports Google, OpenAI, Anthropic, xAI, DeepSeek, Perplexity, Azure, Ollama, or any other LLM model from the [Vercel AI SDK](https://sdk.vercel.ai/providers).
 
