@@ -94,10 +94,10 @@ const app = {
 		};
 		
 		if (params.ai_base_url) {
-			opts.model.baseURL = params.ai_base_url;
+			sh_opts.model.baseURL = params.ai_base_url;
 		}
 		if (params.ai_system_prompt) {
-			opts.systemPrompt = params.ai_system_prompt;
+			sh_opts.systemPrompt = params.ai_system_prompt;
 		}
 		
 		// make sure downloads dir exists
