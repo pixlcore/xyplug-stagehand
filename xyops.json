@@ -10,7 +10,7 @@
 				"title": "Stagehand",
 				"enabled": true,
 				"type": "event",
-				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.17",
+				"command": "docker run -i --rm --init --ipc=host --name \"xyplug-stagehand-{{id}}\" ghcr.io/pixlcore/xyplug-stagehand:v1.0.18",
 				"script": "",
 				"groups": [],
 				"format": "",
@@ -41,6 +41,13 @@
 						"type": "checkbox",
 						"caption": "Optionally capture and attach all the AI inference summary logs (for debugging).",
 						"locked": false,
+						"value": false
+					},
+					{ 
+						"id": "ssl_cert_bypass", 
+						"type": "checkbox", 
+						"title": "SSL Certificate Bypass", 
+						"caption": "Optionally bypass SSL / TLS certificate validation when visiting websites.",
 						"value": false
 					},
 					{
