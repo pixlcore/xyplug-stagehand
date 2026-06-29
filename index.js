@@ -101,8 +101,11 @@ const app = {
 			sh_opts.systemPrompt = params.ai_system_prompt;
 		}
 		
-		// make sure downloads dir exists
-		if (!existsSync('downloads')) mkdirSync('downloads');
+		// Make sure our writable runtime dirs exist before Stagehand / Chrome launch.
+		// Stagehand 3.6+ expects a custom userDataDir to exist before init.
+		[ 'downloads', 'profile', 'cache' ].forEach( (dir) => {
+			if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
+		} );
 		
 		// at vebose level 2, dump job data and env to downloads
 		if (params.verbose >= 2) {

@@ -315,9 +315,11 @@ Example Dev setup:
 # Build local docker image
 docker build -t xyplug-stagehand-dev .
 
-# Run with test file pipe, and index.js and downloads mapped to container
-cat MY_TEST_FILE.json | docker run --rm -i --init --ipc=host -v "./downloads:/app/downloads" -v "./index.js:/app/index.js" -e AI_API_KEY="YOUR_AI_API_KEY_HERE" xyplug-stagehand-dev
+# Run with test file pipe, bypassing xyRun for local testing
+cat MY_TEST_FILE.json | docker run --rm -i --init --ipc=host -v "./downloads:/app/downloads" -v "./index.js:/app/index.js" -e AI_API_KEY="YOUR_AI_API_KEY_HERE" xyplug-stagehand-dev node index.js
 ```
+
+The extra `node index.js` after the image name overrides the container's default `CMD`, so the plugin runs directly without [xyRun](https://github.com/pixlcore/xyrun).  This is usually best for local testing, because xyRun expects a running xyOps backend for final file uploads, while local tests generally use volume mounts for output files.
 
 ## License
 

@@ -1,7 +1,7 @@
 {
 	"name": "xyplug-stagehand",
 	"type": "module",
-	"version": "1.0.18",
+	"version": "1.0.19",
 	"private": true,
 	"description": "A Stagehand Plugin for use in the xyOps workflow automation system.",
 	"author": "Joseph Huckaby <jhuckaby@pixlcore.com>",
@@ -22,7 +22,7 @@
 		"chromium"
 	],
 	"dependencies": {
-		"@browserbasehq/stagehand": "3.0.3",
-		"playwright-core": "1.56.1"
+		"@browserbasehq/stagehand": "3.6.0",
+		"playwright-core": "1.61.1"
 	}
 }
